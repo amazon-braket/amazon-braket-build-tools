@@ -1,0 +1,24 @@
+[run]
+branch = True
+source =
+    braket
+
+[paths]
+source =
+    src/braket
+    .tox/*/lib/python*/site-packages/braket
+
+[report]
+show_missing = True
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise NotImplementedError
+
+[html]
+directory = build/coverage
+
+[xml]
+output = build/coverage/coverage.xml

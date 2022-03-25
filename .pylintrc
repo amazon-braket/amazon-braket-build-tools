@@ -1,0 +1,17 @@
+[BASIC]
+docstring-min-length=10
+max-nested-blocks=13
+max-returns=10
+max-args=10
+max-locals=30
+
+disable=import-error,missing-module-docstring,no-name-in-module,too-few-public-methods,wrong-import-order
+
+[SIMILARITIES]
+ignore-docstrings=yes
+ignore-imports=yes
+min-similarity-lines=5
+
+[DESIGN]
+max-args=10
+max-locals=30
