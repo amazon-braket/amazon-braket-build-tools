@@ -49,7 +49,7 @@ setup(
     include_package_data=True,
     url="https://github.com/aws/amazon-braket-pylint-plugins",
     author="Amazon Web Services",
-    description="A set of pylint plugins for Amazon Braket",
+    description="A set build tools for Amazon Braket",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords="Amazon AWS Quantum",
