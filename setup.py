@@ -16,11 +16,11 @@ from setuptools import find_namespace_packages, setup
 with open("README.md") as fh:
     long_description = fh.read()
 
-with open("src/braket/_version.py") as f:
+with open("src/braket/_build_tools/_version.py") as f:
     version = f.readlines()[-1].split()[-1].strip("\"'")
 
 setup(
-    name="braket-build-tools",
+    name="amazon-braket-build-tools",
     version=version,
     license="Apache License 2.0",
     python_requires=">= 3.7",
@@ -47,7 +47,7 @@ setup(
         ]
     },
     include_package_data=True,
-    url="https://github.com/aws/amazon-braket-pylint-plugins",
+    url="https://github.com/aws/amazon-braket-build-tools",
     author="Amazon Web Services",
     description="A set build tools for Amazon Braket",
     long_description=long_description,

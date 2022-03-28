@@ -200,7 +200,7 @@ class BraketCheckstyleChecker(BaseChecker):
     def visit_functiondef(self, node: nodes.FunctionDef) -> None:
         """Handle visiting a function definition.
         Args:
-            node (FunctionDef): The astroid AST node for a function definition. this is way
+            node (FunctionDef): The astroid AST node for a function definition.
         """
         self._check_arguments(node.args)
         self._check_return(node)
