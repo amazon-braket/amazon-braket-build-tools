@@ -109,7 +109,7 @@ class BraketCheckstyleChecker(BaseChecker):
             "All public functions should have return documentation.",
         ),
         "W0008": (
-            "function '%s' is has return documentation but no return type.",
+            "function '%s' has return documentation but no return type.",
             "redundant-function-doc-return",
             "Functions with no return should not have return documentation.",
         ),
