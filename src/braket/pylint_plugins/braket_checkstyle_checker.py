@@ -99,7 +99,7 @@ class BraketCheckstyleChecker(BaseChecker):
             "All public functions should have argument documentation.",
         ),
         "W0006": (
-            "function '%s' is has argument documentation but no arguments.",
+            "function '%s'  has argument documentation but no arguments.",
             "redundant-function-doc-args",
             "Functions with no arguments should not have argument documentation.",
         ),
