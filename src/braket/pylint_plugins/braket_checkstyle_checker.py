@@ -74,7 +74,7 @@ class BraketCheckstyleChecker(BaseChecker):
     priority = -1
     msgs = {
         "W0001": (
-            "'%s' is missing a type hint.",
+            "parameter '%s' is missing a type hint.",
             "missing-type-hint",
             "All parameters should have a type hint.",
         ),
