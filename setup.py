@@ -49,7 +49,7 @@ setup(
     include_package_data=True,
     url="https://github.com/aws/amazon-braket-build-tools",
     author="Amazon Web Services",
-    description="A set build tools for Amazon Braket",
+    description="A set of build tools for Amazon Braket",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords="Amazon AWS Quantum",
