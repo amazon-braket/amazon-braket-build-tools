@@ -79,7 +79,7 @@ class BraketCheckstyleChecker(BaseChecker):
             "All parameters should have a type hint.",
         ),
         "W0002": (
-            "'%s' is missing a type hint for the return value.",
+            "function '%s' is missing a type hint for the return value.",
             "missing-return-type-hint",
             "Function should have a type hint for the return value.",
         ),
