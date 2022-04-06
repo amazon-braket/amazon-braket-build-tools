@@ -159,7 +159,7 @@ class TestBraketCheckstyleChecker(pylint.testutils.CheckerTestCase):
                 pylint.testutils.MessageTest(
                     msg_id='argument-doc-type-hint-mismatch',
                     node=node,
-                    args=('a1', 'Optional[Union[MyA,MyB]]', 'Optional[List[MyA,MyB]]'),
+                    args=('a2', 'Optional[Union[MyA,MyB]]', 'Optional[List[MyA,MyB]]'),
                     line=12,
                     col_offset=0,
                     end_line=12,

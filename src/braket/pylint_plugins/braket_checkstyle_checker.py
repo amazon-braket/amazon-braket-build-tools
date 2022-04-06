@@ -359,6 +359,7 @@ class BraketCheckstyleChecker(BaseChecker):
         if arg_description is None or len(arg_description.strip()) < 2:
             self.add_message("argument-doc-missing-description", node=node, args=arg_name)
 
+    # flake8: noqa: C901
     def _annotation_to_doc_str(self, annotation: NodeNG) -> str:
         if isinstance(annotation, Name):
             return annotation.name
@@ -379,6 +380,9 @@ class BraketCheckstyleChecker(BaseChecker):
             if isinstance(annotation, List):
                 return f"[{result}]"
             return result
+        elif isinstance(annotation, Const):
+            if annotation.value == Ellipsis:
+                return "..."
         return ""
 
     def _check_return_info(
