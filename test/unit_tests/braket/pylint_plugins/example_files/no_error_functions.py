@@ -44,6 +44,28 @@ def function_5(a0:int, *args, **kwargs) -> np.ndarray: #@
     pass
 
 
+def __function6__(a0) -> str: #@
+    pass
+
+
+def function_7(some_reall_long_argument_name: areallyreallyreallyreallyreallyreallyreallyreallylongtype) -> None: #@
+    """This is a description.
+    Args:
+        some_reall_long_argument_name (areallyreallyreallyreallyreallyreallyreallyreallylongtype):
+            This is a parameter description on a new line.
+    """
+    pass
+
+
+def function_8(a0:int, *a1:list) -> None: #@
+    """This is a description.
+    Args:
+        a0 (int): This is a parameter
+        *a1 (list): This is a parameter list
+    """
+    pass
+
+
 class MyClass:
     def function_6(self) -> int:  #@
         """This function has does not document any arguments

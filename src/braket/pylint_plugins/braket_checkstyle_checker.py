@@ -187,8 +187,10 @@ class BraketCheckstyleChecker(BaseChecker):
 
     ARGS_REGEX = re.compile(r"^(\s*)Args\s*:\s*$")
     RETURN_REGEX = re.compile(r"^(\s*)(Returns|Yields)\s*:\s*$")
-    MISC_REGEX = re.compile(r"^(\s*)(Throws|Raises|See also|Example|Examples)\s*:\s*$")
-    ARG_INFO_REGEX = re.compile(r"^(\s*)(\w*)\s*(\([^:]*\))?\s*:\s*(.*)")
+    MISC_REGEX = re.compile(
+        r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
+    )
+    ARG_INFO_REGEX = re.compile(r"^(\s*)(\*{0,2}\w*)\s*(\([^:]*\))?\s*:\s*(.*)")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
     INDENT_REGEX = re.compile(r"^(\s*)\S+.*")
     RESERVED_ARGS = {"self", "cls"}
@@ -202,11 +204,13 @@ class BraketCheckstyleChecker(BaseChecker):
         Args:
             node (FunctionDef): The astroid AST node for a function definition.
         """
-        self._check_arguments(node.args)
+        self._check_arguments(node.name, node.args)
         self._check_return(node)
         self._check_documentation(node)
 
-    def _check_arguments(self, args: nodes.Arguments) -> None:
+    def _check_arguments(self, name: str, args: nodes.Arguments) -> None:
+        if name.startswith("__") or name == "_":
+            return
         for index, argument in enumerate(args.annotations):
             if argument is None:
                 arg_name = args.args[index].name
@@ -316,7 +320,7 @@ class BraketCheckstyleChecker(BaseChecker):
         node: nodes.FunctionDef,
     ) -> None:
         if len(arg_indent) == context.args_indent:
-            if arg_index is None:
+            if arg_index is None and arg_name and not arg_name.startswith("*"):
                 self.add_message("unknown-argument-in-doc", node=node, args=arg_name)
         elif len(arg_indent) != context.args_indent + 4:
             _invalid_indent_found(arg_name, context)
@@ -356,7 +360,9 @@ class BraketCheckstyleChecker(BaseChecker):
                     args=(arg_name, annotation_doc, documented_type),
                 )
 
-        if arg_description is None or len(arg_description.strip()) < 2:
+        if (arg_description is None or len(arg_description.strip()) < 2) and (
+            len(arg_name) + len(arg_type) < 70
+        ):
             self.add_message("argument-doc-missing-description", node=node, args=arg_name)
 
     # flake8: noqa: C901
@@ -418,7 +424,9 @@ class BraketCheckstyleChecker(BaseChecker):
 
     def _verify_args(self, context: DocContext, node: nodes.FunctionDef) -> None:
         if not context.found_args:
-            if self._function_has_arguments_to_document(node):
+            if self._function_has_arguments_to_document(node) and _function_requires_documentation(
+                node
+            ):
                 self.add_message("missing-function-doc-args", node=node, args=node.name)
             return
         if not self._function_has_arguments_to_document(node):
