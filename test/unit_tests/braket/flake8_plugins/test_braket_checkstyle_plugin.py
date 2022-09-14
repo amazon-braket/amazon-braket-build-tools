@@ -62,6 +62,7 @@ def test_no_error_functions():
             "complex_types.py",
             {
                 "12:0 BCS005 - Argument 'a2' type hint doesn't match documentation. expected: 'Optional[Union[MyA,MyB]]', documented as: 'Optional[List[MyA,MyB]]'.", # noqa
+                "12:0 BCS017 - Function 'my_func' is missing function description documentation."
             }
         ),
         (

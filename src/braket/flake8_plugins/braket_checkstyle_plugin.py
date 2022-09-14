@@ -387,7 +387,7 @@ def _function_requires_documentation(node: ast.FunctionDef) -> bool:
     if node.body is None or len(node.body) == 0:
         return False
     for body_node in node.body:
-        if not isinstance(body_node, (ast.Pass, ast.Expr, ast.Return)):
+        if not isinstance(body_node, (ast.Expr, ast.Return, ast.Raise)):
             return True
     return False
 
@@ -395,7 +395,7 @@ def _function_requires_documentation(node: ast.FunctionDef) -> bool:
 def _return_type_requires_documentation(node: ast.FunctionDef) -> bool:
     if not node.returns:
         return False
-    if isinstance(node.returns, int):
+    if isinstance(node.returns, ast.NameConstant):
         return node.returns.value is not None
     return True
 

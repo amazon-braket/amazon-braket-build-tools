@@ -63,6 +63,7 @@ def function_8(a0:int, *a1:list) -> None:
         a0 (int): This is a parameter
         *a1 (list): This is a parameter list
     """
+    val = 1
     pass
 
 
@@ -81,3 +82,6 @@ class MyClass:
             int: This function returns an int
         """
         pass
+
+    def cancel(self) -> None:
+        raise NotImplementedError("Cannot cancel completed local task")
