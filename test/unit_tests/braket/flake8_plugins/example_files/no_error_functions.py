@@ -67,6 +67,14 @@ def function_8(a0:int, *a1:list) -> None:
 
 
 class MyClass:
+    def __init__(self, a0:int):
+        """
+        Args:
+            a0 (int): First param.
+        """
+        hey = 1
+        pass
+
     def function_6(self) -> int:
         """This function has does not document any arguments
         Returns:

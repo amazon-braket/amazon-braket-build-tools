@@ -303,9 +303,7 @@ class _Visitor(ast.NodeVisitor):
                     )
 
     def _verify_description(self, context: DocContext, node: ast.FunctionDef) -> None:
-        if not context.found_description and (
-            _function_requires_documentation(node) or context.found_args or context.found_return
-        ):
+        if not context.found_description and _function_requires_documentation(node):
             self.add_problem(node=node, code="BCS017", arguments=node.name)
 
     def _verify_args(self, context: DocContext, node: ast.FunctionDef) -> None:
