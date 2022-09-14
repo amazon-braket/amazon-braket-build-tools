@@ -67,6 +67,19 @@ def function_8(a0:int, *a1:list) -> None:
     pass
 
 
+def function_9(*my_args, **my_kwargs) -> np.ndarray:
+    """This is a description.
+    Args:
+        *my_args: Arguments that are described here.
+        **my_kwargs: Keyword arguments that are described here.
+    Returns:
+        ndarray: This is an attribute return type that is also acceptable
+    Raises:
+        ValueError: my value error
+    """
+    pass
+
+
 class MyClass:
     def __init__(self, a0:int):
         """

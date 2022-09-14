@@ -313,7 +313,11 @@ class _Visitor(ast.NodeVisitor):
             ):
                 self.add_problem(node=node, code="BCS018", arguments=node.name)
             return
-        if not self._function_has_arguments_to_document(node):
+        if (
+            not self._function_has_arguments_to_document(node)
+            and node.args.kwarg is None
+            and node.args.vararg is None
+        ):
             self.add_problem(node=node, code="BCS019", arguments=node.name)
             return
         if context.found_arg_list:
