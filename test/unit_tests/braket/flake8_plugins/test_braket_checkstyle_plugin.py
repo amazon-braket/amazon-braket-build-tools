@@ -27,8 +27,9 @@ def test_no_error_functions():
             "simple_functions.py",
             {
                 "4:0 BCS004 - Argument 'my_param' documentation is missing the type hint.",
-                "4:0 BCS005 - Argument 'my_param_3' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.", # noqa
+                "4:0 BCS005 - Argument 'my_param_4' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.", # noqa
                 "4:0 BCS006 - Function 'test' doesn't specify a return type in the documentation. expected: 'int'.", # noqa
+                "4:19 BCS001 - Argument 'my_param_2' is missing a type hint.",
                 "4:9 BCS001 - Argument 'my_param' is missing a type hint."
             }
         ),
