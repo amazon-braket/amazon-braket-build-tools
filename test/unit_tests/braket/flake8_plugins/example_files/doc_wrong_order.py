@@ -1,4 +1,4 @@
-def function_0(a0:int) -> int: #@
+def function_0(a0:int) -> int:
     """This is a description.
     Returns:
         int: This return stuff is in the wrong order.

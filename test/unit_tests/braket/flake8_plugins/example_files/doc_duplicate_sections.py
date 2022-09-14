@@ -1,4 +1,4 @@
-def function_0(a0: int) -> int: #@
+def function_0(a0: int) -> int:
     """This is a description.
     Args:
         a0 (int): This is a parameter

@@ -1,8 +1,8 @@
 from typing import List
 
 
-class MyClass:  #@
-    def test(self, my_param, my_param_2: List, my_param_3: int, my_param5: bool) -> int:  #@
+class MyClass:
+    def test(self, my_param, my_param_2: List, my_param_3: int, my_param5: bool) -> int:
         """This is the test function description
         Args:
             my_param : This is my param.

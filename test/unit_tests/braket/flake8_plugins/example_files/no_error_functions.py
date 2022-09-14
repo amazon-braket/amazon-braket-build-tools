@@ -1,9 +1,9 @@
-def function_0() -> None: #@
+def function_0() -> None:
     """This is a description without a return."""
     pass
 
 
-def function_1(a0: int) -> np.ndarray: #@
+def function_1(a0: int) -> np.ndarray:
     """This is a description.
     Args:
         a0 (int): This is a parameter
@@ -13,16 +13,16 @@ def function_1(a0: int) -> np.ndarray: #@
     pass
 
 
-def function_2() -> int: #@
+def function_2() -> int:
     return 1
 
 
-def __function_3__(): #@
+def __function_3__():
     """This is a function with no return type."""
     pass
 
 
-def function_4(a0:int, *args, **kwargs) -> np.ndarray: #@
+def function_4(a0:int, *args, **kwargs) -> np.ndarray:
     """This is a description.
     Args:
         a0 (int): This is a parameter
@@ -32,7 +32,7 @@ def function_4(a0:int, *args, **kwargs) -> np.ndarray: #@
     pass
 
 
-def function_5(a0:int, *args, **kwargs) -> np.ndarray: #@
+def function_5(a0:int, *args, **kwargs) -> np.ndarray:
     """This is a description.
     Args:
         a0 (int): This is a parameter
@@ -44,11 +44,11 @@ def function_5(a0:int, *args, **kwargs) -> np.ndarray: #@
     pass
 
 
-def __function6__(a0) -> str: #@
+def __function6__(a0) -> str:
     pass
 
 
-def function_7(some_reall_long_argument_name: areallyreallyreallyreallyreallyreallyreallyreallylongtype) -> None: #@
+def function_7(some_reall_long_argument_name: areallyreallyreallyreallyreallyreallyreallyreallylongtype) -> None:
     """This is a description.
     Args:
         some_reall_long_argument_name (areallyreallyreallyreallyreallyreallyreallyreallylongtype):
@@ -57,7 +57,7 @@ def function_7(some_reall_long_argument_name: areallyreallyreallyreallyreallyrea
     pass
 
 
-def function_8(a0:int, *a1:list) -> None: #@
+def function_8(a0:int, *a1:list) -> None:
     """This is a description.
     Args:
         a0 (int): This is a parameter
@@ -67,7 +67,7 @@ def function_8(a0:int, *a1:list) -> None: #@
 
 
 class MyClass:
-    def function_6(self) -> int:  #@
+    def function_6(self) -> int:
         """This function has does not document any arguments
         Returns:
             int: This function returns an int

@@ -9,7 +9,7 @@ class MyB:
     pass
 
 
-def my_func(a0: int, a1: Tuple[int, ...], a2: Optional[Union[MyA, MyB]] = None, a3: Optional[Union[MyA, MyB]] = None) -> List[List[int]]: #@
+def my_func(a0: int, a1: Tuple[int, ...], a2: Optional[Union[MyA, MyB]] = None, a3: Optional[Union[MyA, MyB]] = None) -> List[List[int]]:
     """
     Args:
         a0 (int): This is an int.

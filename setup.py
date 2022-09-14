@@ -26,7 +26,7 @@ setup(
     python_requires=">= 3.7",
     packages=find_namespace_packages(where="src", exclude=("test",)),
     package_dir={"": "src"},
-    install_requires=["coverage"],
+    install_requires=["coverage", "flake8"],
     extras_require={
         "test": [
             "pandas",
@@ -34,7 +34,6 @@ setup(
             "flake8",
             "isort",
             "pre-commit",
-            "pylint",
             "pytest",
             "pytest-benchmark",
             "pytest-cov",

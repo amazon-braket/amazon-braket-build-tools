@@ -9,7 +9,7 @@ class MyB:
     pass
 
 
-def my_func(a0: int, a1: Callable[[Union[MyA, str]], MyA] = None, a2: Optional[MyB] = None) -> np.ndarray: #@
+def my_func(a0: int, a1: Callable[[Union[MyA, str]], MyA] = None, a2: Optional[MyB] = None) -> np.ndarray:
     """This is a description.
     Args:
         a2 (Optional[MyB]): This is out of order.
