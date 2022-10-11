@@ -15,7 +15,8 @@ def _results(text: str) -> Set[str]:
     return {f"{line}:{col} {msg}" for line, col, msg, _ in plugin.run()}
 
 
-def test_no_error_functions():
+def test_no_error_functions() -> None:
+    """Test various functions which should not cause any errors."""
     file = read_file(f"{FILE_PATH}/no_error_functions.py")
     assert _results(file) == set()
 
@@ -54,7 +55,7 @@ def test_no_error_functions():
         (
             "unhandled_types.py",
             {
-                "4:0 BCS005 - Argument 'a0' type hint doesn't match documentation. expected: '', documented as: 'NewType'."
+                "4:0 BCS005 - Argument 'a0' type hint doesn't match documentation. expected: '', documented as: 'NewType'."  # noqa
             },  # noqa
         ),
         (
@@ -83,7 +84,7 @@ def test_no_error_functions():
                 "12:0 BCS011 - Argument 'a0' is missing type hint documentation.",
                 "12:0 BCS015 - Argument 'a1' is out of order.",
                 "12:0 BCS015 - Argument 'a2' is out of order.",
-                "12:0 BCS022 - Found '1' invalid indents starting with line ('This is not ind...').",
+                "12:0 BCS022 - Found '1' invalid indents starting with line ('This is not ind...').",  # noqa
             },
         ),
         (
@@ -107,7 +108,7 @@ def test_no_error_functions():
         (
             "no_return_type.py",
             {
-                "1:0 BCS020 - Function '__my_function__' has return documentation but no return type."
+                "1:0 BCS020 - Function '__my_function__' has return documentation but no return type."  # noqa
             },
         ),
         (
@@ -116,6 +117,11 @@ def test_no_error_functions():
         ),
     ],
 )
-def test_simple_functions(filename, error_set):
+def test_functions(filename: str, error_set: Set[str]) -> None:
+    """Test various files and validate the expected error set.
+    Args:
+        filename (str): The file name containing the functions to test.
+        error_set (Set[str]): The expected errors.
+    """
     file = read_file(f"{FILE_PATH}/{filename}")
     assert _results(file) == error_set
