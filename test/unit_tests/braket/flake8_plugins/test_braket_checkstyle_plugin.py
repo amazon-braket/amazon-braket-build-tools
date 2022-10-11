@@ -27,96 +27,95 @@ def test_no_error_functions():
             "simple_functions.py",
             {
                 "4:0 BCS004 - Argument 'my_param' documentation is missing the type hint.",
-                "4:0 BCS005 - Argument 'my_param_4' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.", # noqa
-                "4:0 BCS006 - Function 'test' doesn't specify a return type in the documentation. expected: 'int'.", # noqa
+                "4:0 BCS005 - Argument 'my_param_4' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.",  # noqa
+                "4:0 BCS006 - Function 'test' doesn't specify a return type in the documentation. expected: 'int'.",  # noqa
                 "4:19 BCS001 - Argument 'my_param_2' is missing a type hint.",
-                "4:9 BCS001 - Argument 'my_param' is missing a type hint."
-            }
+                "4:9 BCS001 - Argument 'my_param' is missing a type hint.",
+            },
         ),
         (
             "missing_return_type.py",
-            {"1:0 BCS002 - Function 'my_function' is missing a type hint for the return value."}
+            {"1:0 BCS002 - Function 'my_function' is missing a type hint for the return value."},
         ),
+        ("missing_doc.py", {"1:0 BCS003 - Function 'my_function' is missing documentation."}),
         (
-            "missing_doc.py",
-            {"1:0 BCS003 - Function 'my_function' is missing documentation."}
-        ),
-        (
-
             "class_functions.py",
             {
                 "5:19 BCS001 - Argument 'my_param' is missing a type hint.",
                 "5:4 BCS004 - Argument 'my_param' documentation is missing the type hint.",
-                "5:4 BCS005 - Argument 'my_param_3' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.", # noqa
+                "5:4 BCS005 - Argument 'my_param_3' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.",  # noqa
                 "5:4 BCS007 - Unknown documented argument 'my_param_4'.",
                 "5:4 BCS008 - Argument 'my_param_3' is missing a description.",
                 "5:4 BCS009 - Argument 'my_param_2' is specified more than once.",
-                "5:4 BCS010 - Function 'test' return type hint doesn't match documentation. expected: 'int', documented as: 'List'.", # noqa
-                "5:4 BCS011 - Argument 'my_param5' is missing type hint documentation."
-            }
+                "5:4 BCS010 - Function 'test' return type hint doesn't match documentation. expected: 'int', documented as: 'List'.",  # noqa
+                "5:4 BCS011 - Argument 'my_param5' is missing type hint documentation.",
+            },
         ),
         (
             "unhandled_types.py",
-            {"4:0 BCS005 - Argument 'a0' type hint doesn't match documentation. expected: '', documented as: 'NewType'."} # noqa
+            {
+                "4:0 BCS005 - Argument 'a0' type hint doesn't match documentation. expected: '', documented as: 'NewType'."
+            },  # noqa
         ),
         (
             "complex_types.py",
             {
-                "12:0 BCS005 - Argument 'a2' type hint doesn't match documentation. expected: 'Optional[Union[MyA,MyB]]', documented as: 'Optional[List[MyA,MyB]]'.", # noqa
-                "12:0 BCS017 - Function 'my_func' is missing function description documentation."
-            }
+                "12:0 BCS005 - Argument 'a2' type hint doesn't match documentation. expected: 'Optional[Union[MyA,MyB]]', documented as: 'Optional[List[MyA,MyB]]'.",  # noqa
+                "12:0 BCS017 - Function 'my_func' is missing function description documentation.",
+            },
         ),
         (
             "doc_duplicate_sections.py",
             {
-                "1:0 BCS012 - Function 'function_0' argument and return documentation has duplicate argument definitions.", # noqa
-                "1:0 BCS014 - Function 'function_0' argument and return documentation has duplicate return definitions.", # noqa
-                "1:0 BCS022 - Found '3' invalid indents starting with line ('Args')."
-            }
+                "1:0 BCS012 - Function 'function_0' argument and return documentation has duplicate argument definitions.",  # noqa
+                "1:0 BCS014 - Function 'function_0' argument and return documentation has duplicate return definitions.",  # noqa
+                "1:0 BCS022 - Found '3' invalid indents starting with line ('Args').",
+            },
         ),
         (
             "doc_wrong_order.py",
-            {"1:0 BCS013 - Function 'function_0' has documented sections in the wrong order"}
+            {"1:0 BCS013 - Function 'function_0' has documented sections in the wrong order"},
         ),
         (
             "more_types.py",
             {
-                "12:0 BCS006 - Function 'my_func' doesn't specify a return type in the documentation. expected: 'ndarray'.", # noqa
+                "12:0 BCS006 - Function 'my_func' doesn't specify a return type in the documentation. expected: 'ndarray'.",  # noqa
                 "12:0 BCS011 - Argument 'a0' is missing type hint documentation.",
                 "12:0 BCS015 - Argument 'a1' is out of order.",
                 "12:0 BCS015 - Argument 'a2' is out of order.",
-                "12:0 BCS022 - Found '1' invalid indents starting with line ('This is not ind...')."
-            }
+                "12:0 BCS022 - Found '1' invalid indents starting with line ('This is not ind...').",
+            },
         ),
         (
             "missing_description.py",
-            {"1:0 BCS016 - Return doc for function 'function_0' is missing the description."}
+            {"1:0 BCS016 - Return doc for function 'function_0' is missing the description."},
         ),
         (
             "missing_doc_parts.py",
             {
                 "1:0 BCS018 - Function 'function_0' is missing argument documentation.",
-                "1:0 BCS021 - Function 'function_0' is missing return documentation."
-            }
+                "1:0 BCS021 - Function 'function_0' is missing return documentation.",
+            },
         ),
         (
             "redundant_doc_parts.py",
             {
                 "1:0 BCS007 - Unknown documented argument 'my_param'.",
-                "1:0 BCS019 - Function 'function_0' has argument documentation but no arguments."
-             }
+                "1:0 BCS019 - Function 'function_0' has argument documentation but no arguments.",
+            },
         ),
         (
             "no_return_type.py",
-            {"1:0 BCS020 - Function '__my_function__' has return documentation but no return type."}
+            {
+                "1:0 BCS020 - Function '__my_function__' has return documentation but no return type."
+            },
         ),
         (
             "line_formatting.py",
-            {"4:0 BCS022 - Found '3' invalid indents starting with line ('a1')."}
+            {"4:0 BCS022 - Found '3' invalid indents starting with line ('a1')."},
         ),
-    ]
+    ],
 )
 def test_simple_functions(filename, error_set):
     file = read_file(f"{FILE_PATH}/{filename}")
     assert _results(file) == error_set
-
