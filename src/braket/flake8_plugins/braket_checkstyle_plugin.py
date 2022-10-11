@@ -260,6 +260,8 @@ class _Visitor(ast.NodeVisitor):
                 if isinstance(annotation.slice, ast.Index):
                     slice_name = self._annotation_to_doc_str(annotation.slice.value)
                 else:
+                    # This is done to be backward compatible. May not be able to hit it with
+                    # usual test coverage.
                     slice_name = self._annotation_to_doc_str(annotation.slice)
                 return annotation.value.id + f"[{slice_name}]"
         elif isinstance(annotation, (ast.List, ast.Tuple)):
