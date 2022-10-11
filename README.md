@@ -1,6 +1,6 @@
 ## Braket Build Tools
 
-## Installing the Amazon Braket Python SDK
+## Installing the Amazon Braket Build Tools
 
 The Amazon Braket Build Tools can be installed with pip as follows:
 
