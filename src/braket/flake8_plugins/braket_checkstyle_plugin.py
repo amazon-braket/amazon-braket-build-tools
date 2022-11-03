@@ -362,6 +362,7 @@ class _Visitor(ast.NodeVisitor):
 class BraketCheckstylePlugin:
     name = __name__
     version = build_tools_version.__version__
+    off_by_default = True
 
     def __init__(self, tree: ast.AST) -> None:
         self._tree = tree
