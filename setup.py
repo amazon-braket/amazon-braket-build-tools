@@ -29,7 +29,6 @@ setup(
     install_requires=["flake8"],
     extras_require={
         "test": [
-            "pandas",
             "black",
             "coverage",
             "isort",
