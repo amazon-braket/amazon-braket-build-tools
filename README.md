@@ -25,7 +25,7 @@ will be run by default whenever flake8 is used.
 #### Testing The Installation
 To test if the extension has been installed run:
 ```bash
-flake8 --help
+flake8 --enable-extensions=BCS --help
 ```
 At the bottom of the output you should see braket checkstyle among your installed plugins:
 ```
@@ -36,7 +36,7 @@ Installed plugins: braket.flake8_plugins.braket_checkstyle_plugin: 0.1.0
 To run with the extension enabled, just run flake8 on the module of your choice.
 For example:
 ```bash
-flake8 src
+flake8 --enable-extensions=BCS src
 ```
 
 
