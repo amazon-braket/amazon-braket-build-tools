@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.1 (2022-11-10)
+
+### Bug Fixes and Other Changes
+
+ * update: adding publish to pypi workflow.
+
 ## v0.1.0 (2022-11-07)
 
 ### Features
@@ -12,4 +18,3 @@
  * disabling extension by default.
  * removing unneccessary dependency.
  * Initial commit
-
