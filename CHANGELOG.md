@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.2 (2023-02-08)
+
+### Bug Fixes and Other Changes
+
+ * fixing setup.cfg again
+ * fixing setup.cfg
+ * update: adding build for python 3.10
+
 ## v0.1.1 (2022-11-10)
 
 ### Bug Fixes and Other Changes
