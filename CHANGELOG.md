@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.0.post0 (2023-03-16)
+
+### Testing and Release Infrastructure
+
+ * add dependabot updates for GH actions
+ * add dependabot updates for GH actions
+
 ## v0.2.0 (2023-03-09)
 
 ### Deprecations and Removals
