@@ -53,7 +53,7 @@ class _Visitor(ast.NodeVisitor):
     MISC_REGEX = re.compile(
         r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
     )
-    ARG_INFO_REGEX = re.compile(r"^(\s*)(\*{0,2}\w*)\s*(\([^:]*\))?\s*:\s*(.*)")
+    ARG_INFO_REGEX = re.compile(r"^(\s*)(`?\*{0,2}\w*`?)\s*(\([^:]*\))?\s*:\s*(.*)")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
     INDENT_REGEX = re.compile(r"^(\s*)\S+.*")
     RESERVED_ARGS = {"self", "cls"}
@@ -187,7 +187,10 @@ class _Visitor(ast.NodeVisitor):
     def _check_argument_info(
         self, regex_matches: re.Match, context: DocContext, node: ast.FunctionDef
     ) -> None:
-        arg_indent, arg_name, arg_type, arg_description = regex_matches.groups()
+        arg_indent = regex_matches.group(1)
+        arg_name = regex_matches.group(2).strip("`") if regex_matches.group(2) else None
+        arg_type = regex_matches.group(3) if regex_matches.group(3) else None
+        arg_description = regex_matches.group(4)
         arg_index = _get_argument_with_name(arg_name, node)
         self._check_argument_indent(arg_indent, arg_name, arg_index, context, node)
         if arg_index is None:
