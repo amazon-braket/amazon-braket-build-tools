@@ -53,7 +53,7 @@ class _Visitor(ast.NodeVisitor):
     MISC_REGEX = re.compile(
         r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
     )
-    ARG_INFO_REGEX = re.compile(r"^(\s*)(\*{0,2}\w*)\s*(\([^:]*\))?\s*:\s*(.*)")
+    ARG_INFO_REGEX = re.compile(r"^(\s*)((`{0,1}\*{0,2}\w*`{0,1})\s*(\([^:]*\))?\s*:\s*(.*))")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
     INDENT_REGEX = re.compile(r"^(\s*)\S+.*")
     RESERVED_ARGS = {"self", "cls"}
@@ -187,7 +187,10 @@ class _Visitor(ast.NodeVisitor):
     def _check_argument_info(
         self, regex_matches: re.Match, context: DocContext, node: ast.FunctionDef
     ) -> None:
-        arg_indent, arg_name, arg_type, arg_description = regex_matches.groups()
+        arg_indent = regex_matches.group(1)
+        arg_name = regex_matches.group(3).strip("`") if regex_matches.group(3) else None
+        arg_type = regex_matches.group(4) if regex_matches.group(4) else None
+        arg_description = regex_matches.group(5)
         arg_index = _get_argument_with_name(arg_name, node)
         self._check_argument_indent(arg_indent, arg_name, arg_index, context, node)
         if arg_index is None:
@@ -204,7 +207,9 @@ class _Visitor(ast.NodeVisitor):
         node: ast.FunctionDef,
     ) -> None:
         if len(arg_indent) == context.args_indent:
-            if arg_index is None and arg_name and not arg_name.startswith("*"):
+            if (
+                arg_index is None and arg_name and not arg_name.startswith("*")
+            ):  # and not arg_name.startswith("`"):
                 self.add_problem(node=node, code="BCS007", arguments=arg_name)
         elif len(arg_indent) != context.args_indent + 4:
             _invalid_indent_found(arg_name, context)
