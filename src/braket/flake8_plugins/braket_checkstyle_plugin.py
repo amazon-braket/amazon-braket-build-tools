@@ -207,9 +207,7 @@ class _Visitor(ast.NodeVisitor):
         node: ast.FunctionDef,
     ) -> None:
         if len(arg_indent) == context.args_indent:
-            if (
-                arg_index is None and arg_name and not arg_name.startswith("*")
-            ):  # and not arg_name.startswith("`"):
+            if arg_index is None and arg_name and not arg_name.startswith("*"):
                 self.add_problem(node=node, code="BCS007", arguments=arg_name)
         elif len(arg_indent) != context.args_indent + 4:
             _invalid_indent_found(arg_name, context)
