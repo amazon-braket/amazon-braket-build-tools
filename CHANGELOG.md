@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1 (2023-05-18)
+
+### Bug Fixes and Other Changes
+
+ * handle conflicts with the backticks in arg name
+
 ## v0.2.0.post0 (2023-03-16)
 
 ### Testing and Release Infrastructure
