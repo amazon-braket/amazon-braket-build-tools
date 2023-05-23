@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.2 (2023-05-23)
+
+### Bug Fixes and Other Changes
+
+ * build(deps): bump actions/setup-python from 2 to 4
+ * build(deps): bump actions/setup-python from 2 to 4
+
+### Testing and Release Infrastructure
+
+ * add dependabot updates for GH actions
+ * add dependabot updates for GH actions
+
 ## v0.2.1 (2023-05-18)
 
 ### Bug Fixes and Other Changes
