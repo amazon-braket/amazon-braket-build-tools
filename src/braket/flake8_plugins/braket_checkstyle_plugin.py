@@ -53,9 +53,9 @@ class _Visitor(ast.NodeVisitor):
     MISC_REGEX = re.compile(
         r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
     )
-    ARG_INFO_REGEX = re.compile(r"^(\s*)(\*{0,2}\w*)\s*(\([^:]*\))?\s*:\s*(.*)")
+    ARG_INFO_REGEX = re.compile(r"^(\s*)`{0,2}(\*{0,2}\w*)`{0,2}\s*(\([^:]*\))?\s*:\s*(.*)")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
-    INDENT_REGEX = re.compile(r"^(\s*)\S+.*")
+    INDENT_REGEX = re.compile(r"^(\s*)(\S+.*)")
     RESERVED_ARGS = {"self", "cls"}
 
     MESSAGES = {
@@ -354,9 +354,12 @@ class _Visitor(ast.NodeVisitor):
     def _check_indent(self, expected_indent: int, line: str, context: DocContext) -> None:
         match = self.INDENT_REGEX.match(line)
         if match:
-            indent = match.groups()[0]
+            groups = match.groups()
+            indent = groups[0]
+            text = groups[1]
             if indent is not None and len(indent) != expected_indent:
-                _invalid_indent_found(line, context)
+                if not text.startswith('*') or len(indent) != expected_indent - 4:
+                    _invalid_indent_found(line, context)
 
 
 class BraketCheckstylePlugin:
