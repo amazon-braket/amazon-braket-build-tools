@@ -38,6 +38,7 @@ class DocContext:
     found_args: bool = False
     found_return: bool = False
     found_description: bool = False
+    in_sub_list: bool = False
     current_section: DocSection = DocSection.DESCRIPTION
     current_arg: int = 0
     found_arg_list: Set = None
@@ -174,12 +175,14 @@ class _Visitor(ast.NodeVisitor):
         elif context.current_section == DocSection.ARGUMENTS:
             matches = self.ARG_INFO_REGEX.match(doc_line)
             if matches:
+                context.in_sub_list = False
                 self._check_argument_info(matches, context, node)
             else:
                 self._check_indent(context.args_indent + 4, doc_line, context)
         elif context.current_section == DocSection.RETURN_FIRST_LINE:
             matches = self.RETURN_INFO_REGEX.match(doc_line)
             self._check_return_info(matches, context, node)
+            context.in_sub_list = False
             context.current_section = DocSection.RETURN_REST
         elif context.current_section == DocSection.RETURN_REST:
             self._check_indent(context.return_indent, doc_line, context)
@@ -357,8 +360,11 @@ class _Visitor(ast.NodeVisitor):
             groups = match.groups()
             indent = groups[0]
             text = groups[1]
-            if indent is not None and len(indent) != expected_indent:
-                if not text.startswith('*') or len(indent) != expected_indent - 4:
+            ind_len = len(indent)
+            if indent is not None and ind_len != expected_indent:
+                if text.startswith("-") and ind_len in [expected_indent - 2, expected_indent + 2]:
+                    context.in_sub_list = True
+                elif not context.in_sub_list:
                     _invalid_indent_found(line, context)
 
 

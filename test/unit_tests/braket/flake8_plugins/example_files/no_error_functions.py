@@ -91,16 +91,24 @@ def function_10(*my_args: str, **my_kwargs) -> int:
     pass
 
 
-def function_11(arg0: int, arg1: int) -> int:
+def function_11(arg0: int, arg1: int, arg2: int) -> int:
     """This is a description.
     Args:
         arg0(int): this is an arg
-        * this is a list of info about this arg
+
+          - this is a list of info about this arg
             with some wrap around
-        * and it ends here
+          - and it ends here
         arg1(int): this is another arg
-        * this is another list of info
-        * about this arg1
+
+          - this is another list of info
+          - about this arg1
+        arg2(int): this is another arg but it has a very very
+            long description
+
+              - this is another list of info
+                with some more wrap around
+              - about this arg2
     Returns:
         int: This is the return type
     """
