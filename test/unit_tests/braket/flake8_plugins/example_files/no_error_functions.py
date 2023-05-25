@@ -80,7 +80,18 @@ def function_9(*my_args, **my_kwargs) -> np.ndarray:
     pass
 
 
-def function_10(a0:int, *a1:list) -> None:
+def function_10(*my_args: str, **my_kwargs) -> int:
+    """This is a description.
+    Args:
+        `*my_args` (str): Arguments that are described here.
+        ``**my_kwargs``: Keyword arguments that are described here.
+    Returns:
+        int: This is an attribute return type that is acceptable
+    """
+    pass
+
+
+def function_11(a0:int, *a1:list) -> None:
     """This is a description.
     Args:
         a0 (int): This is a parameter
@@ -90,17 +101,29 @@ def function_10(a0:int, *a1:list) -> None:
     pass
 
 
-def function_11(*my_args, **my_kwargs) -> np.ndarray:
+def function_12(arg0: int, arg1: int, arg2: int) -> int:
     """This is a description.
     Args:
-        `*my_args`: Arguments that are described here.
-        `**my_kwargs`: Keyword arguments that are described here.
+        arg0(int): this is an arg
+
+          - this is a list of info about this arg
+            with some wrap around
+          - and it ends here
+        arg1(int): this is another arg
+
+          - this is another list of info
+          - about this arg1
+        arg2(int): this is another arg but it has a very very
+            long description
+
+              - this is another list of info
+                with some more wrap around
+              - about this arg2
     Returns:
-        ndarray: This is an attribute return type that is also acceptable
-    Raises:
-        ValueError: my value error
+        int: This is the return type
     """
     pass
+
 
 class MyClass:
     def __init__(self, a0:int):

@@ -38,6 +38,7 @@ class DocContext:
     found_args: bool = False
     found_return: bool = False
     found_description: bool = False
+    in_sub_list: bool = False
     current_section: DocSection = DocSection.DESCRIPTION
     current_arg: int = 0
     found_arg_list: Set = None
@@ -53,9 +54,9 @@ class _Visitor(ast.NodeVisitor):
     MISC_REGEX = re.compile(
         r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
     )
-    ARG_INFO_REGEX = re.compile(r"^(\s*)(`?\*{0,2}\w*`?)\s*(\([^:]*\))?\s*:\s*(.*)")
+    ARG_INFO_REGEX = re.compile(r"^(\s*)`{0,2}(\*{0,2}\w*)`{0,2}\s*(\([^:]*\))?\s*:\s*(.*)")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
-    INDENT_REGEX = re.compile(r"^(\s*)\S+.*")
+    INDENT_REGEX = re.compile(r"^(\s*)(\S+.*)")
     RESERVED_ARGS = {"self", "cls"}
 
     MESSAGES = {
@@ -174,12 +175,14 @@ class _Visitor(ast.NodeVisitor):
         elif context.current_section == DocSection.ARGUMENTS:
             matches = self.ARG_INFO_REGEX.match(doc_line)
             if matches:
+                context.in_sub_list = False
                 self._check_argument_info(matches, context, node)
             else:
                 self._check_indent(context.args_indent + 4, doc_line, context)
         elif context.current_section == DocSection.RETURN_FIRST_LINE:
             matches = self.RETURN_INFO_REGEX.match(doc_line)
             self._check_return_info(matches, context, node)
+            context.in_sub_list = False
             context.current_section = DocSection.RETURN_REST
         elif context.current_section == DocSection.RETURN_REST:
             self._check_indent(context.return_indent, doc_line, context)
@@ -187,10 +190,7 @@ class _Visitor(ast.NodeVisitor):
     def _check_argument_info(
         self, regex_matches: re.Match, context: DocContext, node: ast.FunctionDef
     ) -> None:
-        arg_indent = regex_matches.group(1)
-        arg_name = regex_matches.group(2).strip("`") if regex_matches.group(2) else None
-        arg_type = regex_matches.group(3) if regex_matches.group(3) else None
-        arg_description = regex_matches.group(4)
+        arg_indent, arg_name, arg_type, arg_description = regex_matches.groups()
         arg_index = _get_argument_with_name(arg_name, node)
         self._check_argument_indent(arg_indent, arg_name, arg_index, context, node)
         if arg_index is None:
@@ -357,9 +357,15 @@ class _Visitor(ast.NodeVisitor):
     def _check_indent(self, expected_indent: int, line: str, context: DocContext) -> None:
         match = self.INDENT_REGEX.match(line)
         if match:
-            indent = match.groups()[0]
-            if indent is not None and len(indent) != expected_indent:
-                _invalid_indent_found(line, context)
+            groups = match.groups()
+            indent = groups[0]
+            text = groups[1]
+            ind_len = len(indent)
+            if indent is not None and ind_len != expected_indent:
+                if text.startswith("-") and ind_len in [expected_indent - 2, expected_indent + 2]:
+                    context.in_sub_list = True
+                elif not context.in_sub_list:
+                    _invalid_indent_found(line, context)
 
 
 class BraketCheckstylePlugin:
