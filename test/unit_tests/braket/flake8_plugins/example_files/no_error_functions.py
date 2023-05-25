@@ -125,6 +125,20 @@ def function_12(arg0: int, arg1: int, arg2: int) -> int:
     pass
 
 
+def function_13(a0:int) -> np.ndarray:
+    """This is a description.
+    Args:
+        a0 (int): This is a parameter
+    Returns:
+        ndarray: This is an attribute return type that is also acceptable
+    Example (SomeCondition.VALUE):
+    ::
+        series_1 = SomeCondition.from_lists(values=[0, 0.1])
+        series_2 = SomeCondition.from_lists(values=[0.2, 0.4])
+    """
+    pass
+
+
 class MyClass:
     def __init__(self, a0:int):
         """

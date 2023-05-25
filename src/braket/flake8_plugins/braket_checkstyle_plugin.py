@@ -52,7 +52,7 @@ class _Visitor(ast.NodeVisitor):
     ARGS_REGEX = re.compile(r"^(\s*)Args\s*:\s*$")
     RETURN_REGEX = re.compile(r"^(\s*)(Returns|Yields)\s*:\s*$")
     MISC_REGEX = re.compile(
-        r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)\s*:\s*$"
+        r"^(\s*)(Throws|Raises|See Also|Note|Example|Examples|Warnings)( \(.+\))?:\s*$"
     )
     ARG_INFO_REGEX = re.compile(r"^(\s*)`{0,2}(\*{0,2}\w*)`{0,2}\s*(\([^:]*\))?\s*:\s*(.*)")
     RETURN_INFO_REGEX = re.compile(r"^(\s*)([^:]*)\s*(:)?\s*(.*)")
