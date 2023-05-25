@@ -91,7 +91,17 @@ def function_10(*my_args: str, **my_kwargs) -> int:
     pass
 
 
-def function_11(arg0: int, arg1: int, arg2: int) -> int:
+def function_11(a0:int, *a1:list) -> None:
+    """This is a description.
+    Args:
+        a0 (int): This is a parameter
+        `*a1` (list): This is a parameter list
+    """
+    val = 1
+    pass
+
+
+def function_12(arg0: int, arg1: int, arg2: int) -> int:
     """This is a description.
     Args:
         arg0(int): this is an arg
