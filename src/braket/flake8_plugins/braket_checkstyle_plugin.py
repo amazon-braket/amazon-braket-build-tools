@@ -28,6 +28,11 @@ class DocSection(str, Enum):
     MISC = "MISC"
 
 
+class ArgType(str, Enum):
+    DEFAULT = "DEFAULT"
+    KEYWORD = "KEYWORD"
+
+
 @dataclass
 class DocContext:
     """
@@ -40,7 +45,7 @@ class DocContext:
     found_description: bool = False
     in_sub_list: bool = False
     current_section: DocSection = DocSection.DESCRIPTION
-    current_arg: int = 0
+    previous_arg: Tuple[int, ArgType] = None
     found_arg_list: Set = None
     args_indent: int = 0
     return_indent: int = 0
@@ -190,13 +195,15 @@ class _Visitor(ast.NodeVisitor):
     def _check_argument_info(
         self, regex_matches: re.Match, context: DocContext, node: ast.FunctionDef
     ) -> None:
-        arg_indent, arg_name, arg_type, arg_description = regex_matches.groups()
-        arg_index = _get_argument_with_name(arg_name, node)
+        arg_indent, arg_name, arg_hint, arg_description = regex_matches.groups()
+        arg_index, arg_type = _get_argument_with_name(arg_name, node)
         self._check_argument_indent(arg_indent, arg_name, arg_index, context, node)
         if arg_index is None:
             return
-        self._check_argument_docs(arg_name, arg_type, arg_description, arg_index, context, node)
-        context.current_arg = arg_index + 1
+        self._check_argument_docs(
+            arg_name, arg_hint, arg_description, arg_index, arg_type, context, node
+        )
+        context.previous_arg = (arg_index, arg_type)
 
     def _check_argument_indent(
         self,
@@ -215,42 +222,74 @@ class _Visitor(ast.NodeVisitor):
     def _check_argument_docs(
         self,
         arg_name: str,
-        arg_type: str,
+        arg_hint: str,
         arg_description: str,
         arg_index: int,
+        arg_type: ArgType,
         context: DocContext,
         node: ast.FunctionDef,
     ) -> None:
         if context.found_arg_list is None:
-            context.found_arg_list = {arg_index}
-        elif arg_index in context.found_arg_list:
+            context.found_arg_list = {(arg_index, arg_type)}
+        elif (arg_index, arg_type) in context.found_arg_list:
             self.add_problem(node=node, code="BCS009", arguments=arg_name)
             return
         else:
-            context.found_arg_list.add(arg_index)
-        if context.current_arg == 0 and arg_index != context.current_arg:
-            if node.args.args[0].arg in self.RESERVED_ARGS:
-                context.current_arg = 1
-        if arg_index != context.current_arg:
-            self.add_problem(node=node, code="BCS015", arguments=arg_name)
-        if arg_type is None:
+            context.found_arg_list.add((arg_index, arg_type))
+
+        self._check_argument_order(arg_name, arg_index, arg_type, context, node)
+
+        if arg_hint is None:
             self.add_problem(node=node, code="BCS004", arguments=arg_name)
-        elif node.args.args[arg_index].annotation:
-            documented_type = _remove_all_spaces(arg_type[1:-1])
-            annotation_doc = _remove_all_spaces(
-                self._annotation_to_doc_str(node.args.args[arg_index].annotation)
-            )
+        else:
+            self._check_annotation(arg_name, arg_hint, arg_index, arg_type, node)
+
+        if (arg_description is None or len(arg_description.strip()) < 2) and (
+            len(arg_name) + len(arg_hint) < 70
+        ):
+            self.add_problem(node=node, code="BCS008", arguments=arg_name)
+
+    def _check_argument_order(
+        self,
+        arg_name: str,
+        arg_index: int,
+        arg_type: ArgType,
+        context: DocContext,
+        node: ast.FunctionDef,
+    ) -> None:
+        expected_index = 0
+        if context.previous_arg is None:
+            if node.args.args[0].arg in self.RESERVED_ARGS:
+                expected_index = 1
+        elif arg_type == context.previous_arg[1]:
+            expected_index = context.previous_arg[0] + 1
+        if arg_index != expected_index:
+            self.add_problem(node=node, code="BCS015", arguments=arg_name)
+
+    def _check_annotation(
+        self,
+        arg_name: str,
+        arg_hint: str,
+        arg_index: int,
+        arg_type: ArgType,
+        node: ast.FunctionDef,
+    ) -> None:
+        annotation = None
+        if arg_type == ArgType.DEFAULT:
+            if node.args.args[arg_index].annotation:
+                annotation = node.args.args[arg_index].annotation
+        elif arg_type == ArgType.KEYWORD:
+            if node.args.kwonlyargs[arg_index].annotation:
+                annotation = node.args.kwonlyargs[arg_index].annotation
+        if annotation:
+            documented_type = _remove_all_spaces(arg_hint[1:-1])
+            annotation_doc = _remove_all_spaces(self._annotation_to_doc_str(annotation))
             if not _are_type_strings_same(annotation_doc, documented_type):
                 self.add_problem(
                     node=node,
                     code="BCS005",
                     arguments=(arg_name, annotation_doc, documented_type),
                 )
-
-        if (arg_description is None or len(arg_description.strip()) < 2) and (
-            len(arg_name) + len(arg_type) < 70
-        ):
-            self.add_problem(node=node, code="BCS008", arguments=arg_name)
 
     # flake8: noqa: C901
     def _annotation_to_doc_str(self, annotation) -> str:
@@ -327,7 +366,13 @@ class _Visitor(ast.NodeVisitor):
             return
         if context.found_arg_list:
             for index, arg in enumerate(node.args.args):
-                if index not in context.found_arg_list and arg.arg not in self.RESERVED_ARGS:
+                if (
+                    index,
+                    ArgType.DEFAULT,
+                ) not in context.found_arg_list and arg.arg not in self.RESERVED_ARGS:
+                    self.add_problem(node=node, code="BCS011", arguments=arg.arg)
+            for index, arg in enumerate(node.args.kwonlyargs):
+                if (index, ArgType.KEYWORD) not in context.found_arg_list:
                     self.add_problem(node=node, code="BCS011", arguments=arg.arg)
 
     def _verify_return(self, context: DocContext, node: ast.FunctionDef) -> None:
@@ -390,11 +435,16 @@ def _get_first_doc(node: ast.FunctionDef):
     return None
 
 
-def _get_argument_with_name(arg_name: str, node: ast.FunctionDef) -> Optional[int]:
+def _get_argument_with_name(
+    arg_name: str, node: ast.FunctionDef
+) -> Tuple[Optional[int], Optional[ArgType]]:
     for index, arg in enumerate(node.args.args):
         if arg_name == arg.arg:
-            return index
-    return None
+            return index, ArgType.DEFAULT
+    for index, arg in enumerate(node.args.kwonlyargs):
+        if arg_name == arg.arg:
+            return index, ArgType.KEYWORD
+    return None, None
 
 
 def _function_requires_documentation(node: ast.FunctionDef) -> bool:
