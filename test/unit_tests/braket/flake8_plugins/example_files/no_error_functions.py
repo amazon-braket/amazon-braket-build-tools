@@ -139,6 +139,18 @@ def function_13(a0:int) -> np.ndarray:
     pass
 
 
+def function_14(name: str, *, control: int = 0, target: int = 1) -> int:
+    """This is a description.
+    Args:
+        name (str): This is a parameter
+        control (int): This is a parameter control
+        target (int): This is a parameter target
+    Returns:
+        int: value of the function.
+    """
+    pass
+
+
 class MyClass:
     def __init__(self, a0:int):
         """

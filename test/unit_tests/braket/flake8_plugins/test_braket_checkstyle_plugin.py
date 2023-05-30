@@ -115,6 +115,15 @@ def test_no_error_functions() -> None:
             "line_formatting.py",
             {"4:0 BCS022 - Found '3' invalid indents starting with line ('a1')."},
         ),
+        (
+            "keyword_functions.py",
+            {
+                "1:0 BCS004 - Argument 'arg3' documentation is missing the type hint.",
+                "1:0 BCS005 - Argument 'arg2' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.",  # noqa
+                "1:0 BCS011 - Argument 'arg1' is missing type hint documentation.",
+                "1:0 BCS015 - Argument 'arg2' is out of order.",
+            },
+        ),
     ],
 )
 def test_functions(filename: str, error_set: Set[str]) -> None:
