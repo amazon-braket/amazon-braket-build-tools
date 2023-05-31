@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.4 (2023-05-31)
+
+### Bug Fixes and Other Changes
+
+ * adding support for keyword only args.
+
 ## v0.2.3 (2023-05-29)
 
 ### Bug Fixes and Other Changes
