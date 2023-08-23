@@ -259,7 +259,7 @@ class _Visitor(ast.NodeVisitor):
     ) -> None:
         expected_index = 0
         if context.previous_arg is None:
-            if node.args.args[0].arg in self.RESERVED_ARGS:
+            if node.args.args and node.args.args[0].arg in self.RESERVED_ARGS:
                 expected_index = 1
         elif arg_type == context.previous_arg[1]:
             expected_index = context.previous_arg[0] + 1
