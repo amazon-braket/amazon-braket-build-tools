@@ -151,6 +151,16 @@ def function_14(name: str, *, control: int = 0, target: int = 1) -> int:
     pass
 
 
+def function_15(*args, a0: int) -> int:
+    """This is a description.
+    Args:
+        a0 (int): This is a parameter
+    Returns:
+        int: value of the function
+    """
+    pass
+
+
 class MyClass:
     def __init__(self, a0:int):
         """
