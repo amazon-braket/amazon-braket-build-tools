@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.6 (2023-08-24)
+
+### Bug Fixes and Other Changes
+
+ * Fix case with parameter after *args
+
 ## v0.2.5 (2023-06-01)
 
 ### Bug Fixes and Other Changes
