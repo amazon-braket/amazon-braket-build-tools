@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.7 (2023-09-25)
+
+### Bug Fixes and Other Changes
+
+ * build(deps): bump actions/checkout from 3 to 4
+ * build(deps): bump codecov/codecov-action from 1 to 3
+
 ## v0.2.6 (2023-08-24)
 
 ### Bug Fixes and Other Changes
