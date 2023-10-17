@@ -366,8 +366,8 @@ class _Visitor(ast.NodeVisitor):
             not self._function_has_arguments_to_document(node)
             and node.args.kwarg is None
             and node.args.vararg is None
-            and node.args.kwonlyargs is None
-            and node.args.posonlyargs is None
+            and (node.args.kwonlyargs is None or node.args.kwonlyargs == [])
+            and (node.args.posonlyargs is None or node.args.posonlyargs == [])
         ):
             self.add_problem(node=node, code="BCS019", arguments=node.name)
             return
