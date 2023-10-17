@@ -319,6 +319,11 @@ class _Visitor(ast.NodeVisitor):
             return result
         elif isinstance(annotation, ast.Ellipsis):
             return "..."
+        elif isinstance(annotation, ast.BinOp):
+            if isinstance(annotation.op, ast.BitOr):
+                return f"{self._annotation_to_doc_str(annotation.left)}|{self._annotation_to_doc_str(annotation.right)}"
+            if isinstance(annotation.op, ast.BitAnd):
+                return f"{self._annotation_to_doc_str(annotation.left)}&{self._annotation_to_doc_str(annotation.right)}"
         return ""
 
     def _check_return_info(
@@ -361,6 +366,8 @@ class _Visitor(ast.NodeVisitor):
             not self._function_has_arguments_to_document(node)
             and node.args.kwarg is None
             and node.args.vararg is None
+            and node.args.kwonlyargs is None
+            and node.args.posonlyargs is None
         ):
             self.add_problem(node=node, code="BCS019", arguments=node.name)
             return
