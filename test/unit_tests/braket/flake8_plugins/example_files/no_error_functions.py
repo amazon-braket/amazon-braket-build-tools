@@ -161,6 +161,27 @@ def function_15(*args, a0: int) -> int:
     pass
 
 
+def function_16(a0: int | list, a1: bool & float) -> int:
+    """This is a description.
+    Args:
+        a0 (int | list): This is a parameter
+        a1 (bool & float): This is a parameter also
+    Returns:
+        int: value of the function
+    """
+    pass
+
+
+def function_17(*, a0: int) -> int:
+    """This is a description.
+    Args:
+        a0 (int): This is a parameter
+    Returns:
+        int: value of the function
+    """
+    pass
+
+
 class MyClass:
     def __init__(self, a0:int):
         """

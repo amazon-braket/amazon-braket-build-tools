@@ -109,6 +109,9 @@ class _Visitor(ast.NodeVisitor):
             if argument.annotation is None:
                 if argument.arg not in self.RESERVED_ARGS:
                     self.add_problem(node=argument, code="BCS001", arguments=argument.arg)
+        for argument in args.kwonlyargs:
+            if argument.annotation is None:
+                self.add_problem(node=argument, code="BCS001", arguments=argument.arg)
 
     def _check_return(self, node: ast.FunctionDef) -> None:
         if not node.returns and not node.name.startswith("__") and node.name != "_":
@@ -302,10 +305,10 @@ class _Visitor(ast.NodeVisitor):
                 if isinstance(annotation.slice, ast.Index):
                     slice_name = self._annotation_to_doc_str(annotation.slice.value)
                 else:
-                    # This is done to be backward compatible. May not be able to hit it with
-                    # usual test coverage.
+                    # This is done to be backward compatible.
                     slice_name = self._annotation_to_doc_str(annotation.slice)
                 return annotation.value.id + f"[{slice_name}]"
+            raise NotImplementedError("Currently not handling annotation values that are not Names")
         elif isinstance(annotation, (ast.List, ast.Tuple)):
             values = []
             for elt in annotation.elts:
@@ -319,6 +322,12 @@ class _Visitor(ast.NodeVisitor):
             return result
         elif isinstance(annotation, ast.Ellipsis):
             return "..."
+        elif isinstance(annotation, ast.BinOp):
+            if isinstance(annotation.op, ast.BitOr):
+                return f"{self._annotation_to_doc_str(annotation.left)}|{self._annotation_to_doc_str(annotation.right)}"
+            if isinstance(annotation.op, ast.BitAnd):
+                return f"{self._annotation_to_doc_str(annotation.left)}&{self._annotation_to_doc_str(annotation.right)}"
+            raise NotImplementedError("Currently not handling annotation XOR binary operations")
         return ""
 
     def _check_return_info(
@@ -361,6 +370,8 @@ class _Visitor(ast.NodeVisitor):
             not self._function_has_arguments_to_document(node)
             and node.args.kwarg is None
             and node.args.vararg is None
+            and (node.args.kwonlyargs is None or node.args.kwonlyargs == [])
+            and (node.args.posonlyargs is None or node.args.posonlyargs == [])
         ):
             self.add_problem(node=node, code="BCS019", arguments=node.name)
             return
@@ -448,9 +459,7 @@ def _get_argument_with_name(
 
 
 def _function_requires_documentation(node: ast.FunctionDef) -> bool:
-    if node.name.startswith("_"):
-        return False
-    if node.body is None or len(node.body) == 0:
+    if node.name.startswith("_") or node.body is None or len(node.body) == 0:
         return False
     for body_node in node.body:
         if not isinstance(body_node, (ast.Expr, ast.Return, ast.Raise)):
