@@ -464,9 +464,7 @@ def _function_requires_documentation(node: ast.FunctionDef) -> bool:
 
 
 def _return_type_requires_documentation(node: ast.FunctionDef) -> bool:
-    if not node.returns:
-        return False
-    if isinstance(node.returns, ast.NameConstant):
+    if node.returns and isinstance(node.returns, ast.NameConstant):
         return node.returns.value is not None
     return True
 
