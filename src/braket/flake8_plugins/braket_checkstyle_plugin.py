@@ -455,9 +455,7 @@ def _get_argument_with_name(
 
 
 def _function_requires_documentation(node: ast.FunctionDef) -> bool:
-    if node.name.startswith("_"):
-        return False
-    if node.body is None or len(node.body) == 0:
+    if node.name.startswith("_") or node.body is None or len(node.body) == 0:
         return False
     for body_node in node.body:
         if not isinstance(body_node, (ast.Expr, ast.Return, ast.Raise)):
