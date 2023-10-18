@@ -109,6 +109,9 @@ class _Visitor(ast.NodeVisitor):
             if argument.annotation is None:
                 if argument.arg not in self.RESERVED_ARGS:
                     self.add_problem(node=argument, code="BCS001", arguments=argument.arg)
+        for argument in args.kwonlyargs:
+            if argument.annotation is None:
+                self.add_problem(node=argument, code="BCS001", arguments=argument.arg)
 
     def _check_return(self, node: ast.FunctionDef) -> None:
         if not node.returns and not node.name.startswith("__") and node.name != "_":
@@ -302,10 +305,10 @@ class _Visitor(ast.NodeVisitor):
                 if isinstance(annotation.slice, ast.Index):
                     slice_name = self._annotation_to_doc_str(annotation.slice.value)
                 else:
-                    # This is done to be backward compatible. May not be able to hit it with
-                    # usual test coverage.
+                    # This is done to be backward compatible.
                     slice_name = self._annotation_to_doc_str(annotation.slice)
                 return annotation.value.id + f"[{slice_name}]"
+            raise NotImplementedError("Currently not handling annotation values that are not Names")
         elif isinstance(annotation, (ast.List, ast.Tuple)):
             values = []
             for elt in annotation.elts:
@@ -324,6 +327,7 @@ class _Visitor(ast.NodeVisitor):
                 return f"{self._annotation_to_doc_str(annotation.left)}|{self._annotation_to_doc_str(annotation.right)}"
             if isinstance(annotation.op, ast.BitAnd):
                 return f"{self._annotation_to_doc_str(annotation.left)}&{self._annotation_to_doc_str(annotation.right)}"
+            raise NotImplementedError("Currently not handling annotation XOR binary operations")
         return ""
 
     def _check_return_info(
@@ -464,7 +468,9 @@ def _function_requires_documentation(node: ast.FunctionDef) -> bool:
 
 
 def _return_type_requires_documentation(node: ast.FunctionDef) -> bool:
-    if node.returns and isinstance(node.returns, ast.NameConstant):
+    if not node.returns:
+        return False
+    if isinstance(node.returns, ast.NameConstant):
         return node.returns.value is not None
     return True
 

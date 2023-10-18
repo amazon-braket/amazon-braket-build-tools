@@ -118,6 +118,7 @@ def test_no_error_functions() -> None:
         (
             "keyword_functions.py",
             {
+                "13:29 BCS001 - Argument 'arg1' is missing a type hint.",
                 "1:0 BCS004 - Argument 'arg3' documentation is missing the type hint.",
                 "1:0 BCS005 - Argument 'arg2' type hint doesn't match documentation. expected: 'int', documented as: 'bool'.",  # noqa
                 "1:0 BCS011 - Argument 'arg1' is missing type hint documentation.",
