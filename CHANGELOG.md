@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.8 (2023-10-19)
+
+### Bug Fixes and Other Changes
+
+ * update: add binary operators in type hints (new in 3.10)
+
 ## v0.2.7 (2023-09-25)
 
 ### Bug Fixes and Other Changes
