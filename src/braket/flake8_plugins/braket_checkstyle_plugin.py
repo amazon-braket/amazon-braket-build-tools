@@ -87,7 +87,7 @@ class _Visitor(ast.NodeVisitor):
         "BCS020": "Function '%s' has return documentation but no return type.",
         "BCS021": "Function '%s' is missing return documentation.",
         "BCS022": "Found '%d' invalid indents starting with line ('%s').",
-        "BCS023": "Argument '%s' is optional but type hint doesn't end with '| None'.",
+        "BCS023": "Argument '%s' defaults to None but type hint doesn't end with '| None'.",
     }
 
     def __init__(self) -> None:
