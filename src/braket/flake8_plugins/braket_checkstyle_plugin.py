@@ -290,6 +290,9 @@ class _Visitor(ast.NodeVisitor):
         elif arg_type == ArgType.KEYWORD:
             if node.args.kwonlyargs[arg_index].annotation:
                 annotation = node.args.kwonlyargs[arg_index].annotation
+            default_index = arg_index - (len(node.args.kwonlyargs) - len(node.args.kw_defaults))
+            if default_index >= 0 and node.args.kw_defaults[default_index]:
+                default_value = node.args.kw_defaults[default_index]
         documented_type = _remove_all_spaces(arg_hint[1:-1])
         if annotation:
             annotation_doc = _remove_all_spaces(self._annotation_to_doc_str(annotation))
