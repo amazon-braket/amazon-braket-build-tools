@@ -161,11 +161,12 @@ def function_15(*args, a0: int) -> int:
     pass
 
 
-def function_16(a0: int | list, a1: bool & float) -> int:
+def function_16(a0: int | list, a1: bool & float, a2: str | None = None) -> int:
     """This is a description.
     Args:
         a0 (int | list): This is a parameter
         a1 (bool & float): This is a parameter also
+        a2 (str | None): This is an optional parameter
     Returns:
         int: value of the function
     """

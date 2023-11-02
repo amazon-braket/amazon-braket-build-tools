@@ -38,7 +38,13 @@ def test_no_error_functions() -> None:
             "missing_return_type.py",
             {"1:0 BCS002 - Function 'my_function' is missing a type hint for the return value."},
         ),
-        ("missing_doc.py", {"1:0 BCS003 - Function 'my_function' is missing documentation."}),
+        (
+            "missing_doc.py",
+            {
+                "1:0 BCS003 - Function 'my_function' is missing documentation.",
+                "6:0 BCS023 - Argument 'a2' is optional but type hint doesn't end with '| None'.",
+            },
+        ),
         (
             "class_functions.py",
             {

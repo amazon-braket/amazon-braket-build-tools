@@ -87,6 +87,7 @@ class _Visitor(ast.NodeVisitor):
         "BCS020": "Function '%s' has return documentation but no return type.",
         "BCS021": "Function '%s' is missing return documentation.",
         "BCS022": "Found '%d' invalid indents starting with line ('%s').",
+        "BCS023": "Argument '%s' is optional but type hint doesn't end with '| None'.",
     }
 
     def __init__(self) -> None:
@@ -278,20 +279,36 @@ class _Visitor(ast.NodeVisitor):
         node: ast.FunctionDef,
     ) -> None:
         annotation = None
+        default_value = None
         if arg_type == ArgType.DEFAULT:
             if node.args.args[arg_index].annotation:
                 annotation = node.args.args[arg_index].annotation
+            if node.args.defaults:
+                default_index = arg_index - (len(node.args.args) - len(node.args.defaults))
+                if default_index >= 0 and node.args.defaults[default_index]:
+                    default_value = node.args.defaults[default_index]
         elif arg_type == ArgType.KEYWORD:
             if node.args.kwonlyargs[arg_index].annotation:
                 annotation = node.args.kwonlyargs[arg_index].annotation
+        documented_type = _remove_all_spaces(arg_hint[1:-1])
         if annotation:
-            documented_type = _remove_all_spaces(arg_hint[1:-1])
             annotation_doc = _remove_all_spaces(self._annotation_to_doc_str(annotation))
             if not _are_type_strings_same(annotation_doc, documented_type):
                 self.add_problem(
                     node=node,
                     code="BCS005",
                     arguments=(arg_name, annotation_doc, documented_type),
+                )
+        if (
+            default_value
+            and isinstance(default_value, ast.Constant)
+            and default_value.value is None
+        ):
+            if not documented_type.endswith("|None") and not documented_type.startswith("Optional"):
+                self.add_problem(
+                    node=node,
+                    code="BCS023",
+                    arguments=(arg_name),
                 )
 
     # flake8: noqa: C901
@@ -300,6 +317,8 @@ class _Visitor(ast.NodeVisitor):
             return annotation.id
         if isinstance(annotation, ast.Attribute):
             return annotation.attr
+        if isinstance(annotation, ast.Constant) and annotation.value is None:
+            return "None"
         if isinstance(annotation, ast.Subscript):
             if isinstance(annotation.value, ast.Name):
                 if isinstance(annotation.slice, ast.Index):
