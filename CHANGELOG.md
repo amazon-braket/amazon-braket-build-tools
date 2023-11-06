@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.9 (2023-11-06)
+
+### Bug Fixes and Other Changes
+
+ * update: forcing explicit optional types
+
 ## v0.2.8 (2023-10-19)
 
 ### Bug Fixes and Other Changes
