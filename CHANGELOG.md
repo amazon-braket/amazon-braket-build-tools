@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.10 (2023-11-07)
+
+### Bug Fixes and Other Changes
+
+ * install setuptools explicitly
+
 ## v0.2.9 (2023-11-06)
 
 ### Bug Fixes and Other Changes
