@@ -307,7 +307,11 @@ class _Visitor(ast.NodeVisitor):
             and isinstance(default_value, ast.Constant)
             and default_value.value is None
         ):
-            if not documented_type.endswith("|None") and not documented_type.startswith("Optional"):
+            if (
+                documented_type != "Any"
+                and not documented_type.endswith("|None")
+                and not documented_type.startswith("Optional")
+            ):
                 self.add_problem(
                     node=node,
                     code="BCS023",
