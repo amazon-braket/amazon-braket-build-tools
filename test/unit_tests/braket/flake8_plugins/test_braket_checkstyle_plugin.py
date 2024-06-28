@@ -41,8 +41,8 @@ def test_no_error_functions() -> None:
         (
             "missing_doc.py",
             {
-                "1:0 BCS003 - Function 'my_function' is missing documentation.",
-                "6:0 BCS023 - Argument 'a2' defaults to None but type hint doesn't end with '| None'.",  # noqa
+                "4:0 BCS003 - Function 'my_function' is missing documentation.",
+                "9:0 BCS023 - Argument 'a2' defaults to None but type hint doesn't end with '| None'.",  # noqa
             },
         ),
         (
