@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.11 (2024-07-01)
+
+### Bug Fixes and Other Changes
+
+ * build(deps): bump actions/setup-python from 4 to 5
+ * build(deps): bump codecov/codecov-action from 3 to 4
+ * Allow `None` as default value for `Any` type hint
+
 ## v0.2.10 (2023-11-07)
 
 ### Bug Fixes and Other Changes
