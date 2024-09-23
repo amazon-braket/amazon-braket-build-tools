@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.11.post0 (2024-09-23)
+
+### Documentation Changes
+
+ * Create CODEOWNERS file
+
 ## v0.2.11 (2024-07-01)
 
 ### Bug Fixes and Other Changes
