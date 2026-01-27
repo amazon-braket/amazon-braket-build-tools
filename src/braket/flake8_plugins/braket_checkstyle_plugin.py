@@ -14,13 +14,13 @@
 import ast
 import re
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Generator, Optional, Set, Tuple, Type
 
 import braket._build_tools._version as build_tools_version
 
 
-class DocSection(str, Enum):
+class DocSection(StrEnum):
     DESCRIPTION = "DESCRIPTION"
     ARGUMENTS = "ARGUMENTS"
     RETURN_FIRST_LINE = "RETURN_FIRST_LINE"
@@ -28,7 +28,7 @@ class DocSection(str, Enum):
     MISC = "MISC"
 
 
-class ArgType(str, Enum):
+class ArgType(StrEnum):
     DEFAULT = "DEFAULT"
     KEYWORD = "KEYWORD"
 
