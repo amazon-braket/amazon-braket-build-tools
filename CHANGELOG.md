@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.16 (2026-02-02)
+
+### Bug Fixes and Other Changes
+
+ * update supported Python versions
+
 ## v0.2.15 (2025-11-25)
 
 ### Bug Fixes and Other Changes
