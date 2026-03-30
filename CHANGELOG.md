@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.17 (2026-03-30)
+
+### Bug Fixes and Other Changes
+
+ * build(deps): bump codecov/codecov-action from 5 to 6
+
 ## v0.2.16 (2026-02-02)
 
 ### Bug Fixes and Other Changes
